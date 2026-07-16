@@ -455,6 +455,211 @@
 
     .warning.show { opacity: 1; transform: translateY(0); }
 
+    /* ── Turnstile Section ── */
+    .turnstile {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 6vw, 90px);
+      align-items: center;
+      padding: clamp(70px, 8vw, 110px) 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .turnstile-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 13px 5px 9px;
+      border: 1px solid rgba(213,35,47,.28);
+      border-radius: 999px;
+      background: rgba(213,35,47,.06);
+      color: var(--red-light);
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      margin-bottom: 26px;
+    }
+
+    .turnstile-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--red-light);
+      box-shadow: 0 0 8px var(--red-light);
+      animation: blink 2.2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .35; }
+    }
+
+    .turnstile-text h2 {
+      margin: 0 0 18px;
+      font-family: "Manrope", sans-serif;
+      font-size: clamp(1.9rem, 3vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.13;
+      letter-spacing: -.035em;
+      color: var(--white);
+    }
+
+    .turnstile-text > p {
+      margin: 0 0 36px;
+      color: var(--muted);
+      font-size: .93rem;
+      line-height: 1.72;
+      max-width: 430px;
+    }
+
+    .turnstile-features {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .turnstile-features li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #d2cdc5;
+      font-size: .875rem;
+      line-height: 1.4;
+    }
+
+    .feat-check {
+      flex-shrink: 0;
+      width: 21px;
+      height: 21px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      background: rgba(213,35,47,.1);
+      border: 1px solid rgba(213,35,47,.25);
+      color: var(--red-light);
+    }
+
+    .feat-check svg { width: 11px; height: 11px; stroke-width: 2.5; }
+
+    .turnstile-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .turnstile-visual::before {
+      content: "";
+      position: absolute;
+      inset: -60px;
+      background: radial-gradient(ellipse at 50% 65%, rgba(213,35,47,.13), transparent 62%);
+      pointer-events: none;
+    }
+
+    .turnstile-img-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 28px;
+      overflow: hidden;
+      background: linear-gradient(150deg, #f4f1ec 0%, #e9e5de 100%);
+      border: 1px solid rgba(255,255,255,.06);
+      box-shadow:
+        0 0 0 1px rgba(213,35,47,.07),
+        0 35px 80px rgba(0,0,0,.55),
+        0 0 120px rgba(213,35,47,.05);
+      padding: clamp(28px, 6%, 52px);
+      aspect-ratio: 3 / 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .turnstile-img-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 24px 40px rgba(0,0,0,.22));
+      transform: scale(1.05);
+      transition: transform .6s cubic-bezier(.25,.46,.45,.94);
+    }
+
+    .turnstile-img-card:hover img { transform: scale(1.1); }
+
+    .turnstile-img-tag {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(8,8,9,.84);
+      border: 1px solid var(--line-strong);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      font-size: .71rem;
+      color: #c4beb6;
+      white-space: nowrap;
+    }
+
+    .turnstile-img-tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #3ecf5e;
+      box-shadow: 0 0 7px #3ecf5e;
+    }
+
+    /* ── Intercom Section ── */
+    .intercom {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 6vw, 90px);
+      align-items: center;
+      padding: clamp(70px, 8vw, 110px) 0;
+      border-top: 1px solid var(--line);
+    }
+
+    @media (min-width: 761px) {
+      .intercom .turnstile-visual { order: -1; }
+    }
+
+    .intercom .turnstile-badge {
+      border-color: rgba(182,138,82,.28);
+      background: rgba(182,138,82,.06);
+      color: var(--bronze-light);
+    }
+
+    .intercom .turnstile-badge-dot {
+      background: var(--bronze-light);
+      box-shadow: 0 0 8px var(--bronze-light);
+    }
+
+    .intercom .feat-check {
+      background: rgba(182,138,82,.1);
+      border-color: rgba(216,180,126,.25);
+      color: var(--bronze-light);
+    }
+
+    .intercom .turnstile-visual::before {
+      background: radial-gradient(ellipse at 50% 65%, rgba(182,138,82,.11), transparent 62%);
+    }
+
+    .intercom .turnstile-img-card {
+      box-shadow:
+        0 0 0 1px rgba(182,138,82,.07),
+        0 35px 80px rgba(0,0,0,.55),
+        0 0 120px rgba(182,138,82,.05);
+    }
+
     @keyframes reveal {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -483,6 +688,10 @@
       .hero p { font-size: .97rem; }
       .products { grid-template-columns: 1fr; }
       .card, .card:last-child { grid-column: auto; min-height: 500px; padding: 24px; }
+      .turnstile { grid-template-columns: 1fr; gap: 48px; }
+      .intercom { grid-template-columns: 1fr; gap: 48px; }
+      .turnstile-text > p { max-width: 100%; }
+      .turnstile-img-card { max-width: 340px; }
       .statement { min-height: 270px; grid-template-columns: 1fr; gap: 25px; }
       .statement::before, .statement::after { width: 180px; margin: 0 auto; }
       footer { min-height: 180px; align-items: flex-start; flex-direction: column; justify-content: center; }
@@ -535,7 +744,7 @@
       </section>
 
       <section class="products">
-        <a class="card bronze" href="#" data-link="website">
+        <a class="card bronze" href="https://link-workspace.github.io/FitHouse-website/" data-link="website">
           <div class="card-top"><span class="number">01</span><span class="eyebrow">Conheça nosso espaço</span></div>
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 2.5 4.2 5.5 4.2 9S14.8 18.5 12 21c-2.8-2.5-4.2-5.5-4.2-9S9.2 5.5 12 3Z"/></svg>
@@ -578,7 +787,7 @@
           <div class="card-glow"></div>
         </article>
 
-        <a class="card dark" href="#" data-link="management">
+        <a class="card dark" href="https://link-workspace.github.io/FitHouse-management/" data-link="management">
           <div class="card-top"><span class="number">03</span><span class="eyebrow">Acesso exclusivo</span></div>
           <div class="card-icon">
             <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 9v12M12.5 13h5M12.5 17h3"/></svg>
@@ -593,6 +802,84 @@
           </div>
           <div class="card-glow"></div>
         </a>
+      </section>
+
+      <section class="turnstile">
+        <div class="turnstile-text">
+          <div class="turnstile-badge">
+            <span class="turnstile-badge-dot"></span>
+            Controle de acesso
+          </div>
+          <h2>Catraca integrada<br>ao sistema</h2>
+          <p>O projeto Fit House inclui uma catraca de acesso com leitura biométrica, integrada diretamente ao sistema de gestão para verificar mensalidades, registrar entradas e garantir a segurança da academia em tempo real.</p>
+          <ul class="turnstile-features">
+            <li>
+              <span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Acesso por biometria integrado ao aplicativo
+            </li>
+            <li>
+              <span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Liberação automática para mensalistas em dia
+            </li>
+            <li>
+              <span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Registro em tempo real de entradas e saídas
+            </li>
+            <li>
+              <span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Bloqueio automático para inadimplentes
+            </li>
+          </ul>
+        </div>
+
+        <div class="turnstile-visual">
+          <div class="turnstile-img-card">
+            <img src="./Catraca de acesso.png" alt="Catraca de acesso Fit House" />
+            <div class="turnstile-img-tag">
+              <span class="turnstile-img-tag-dot"></span>
+              Equipamento ativo
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="intercom">
+        <div class="turnstile-text">
+          <div class="turnstile-badge">
+            <span class="turnstile-badge-dot"></span>
+            Atendimento inteligente
+          </div>
+          <h2>Câmera e áudio<br>integrados à gestão</h2>
+          <p>O projeto Fit House inclui um dispositivo com câmera e alto-falante instalado na recepção, capaz de interagir com os alunos em tempo real — tirando dúvidas sobre planos, informando promoções e orientando sobre situações de pagamento sem precisar de um atendente.</p>
+          <ul class="turnstile-features">
+            <li>
+              <span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Informações sobre planos e mensalidades
+            </li>
+            <li>
+              <span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Comunica promoções e novidades da academia
+            </li>
+            <li>
+              <span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Orienta sobre situações de pagamento em aberto
+            </li>
+            <li>
+              <span class="feat-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+              Atendimento automático 24 h integrado ao sistema
+            </li>
+          </ul>
+        </div>
+
+        <div class="turnstile-visual">
+          <div class="turnstile-img-card">
+            <img src="./Camera e audio.png" alt="Câmera e áudio Fit House" />
+            <div class="turnstile-img-tag">
+              <span class="turnstile-img-tag-dot"></span>
+              Dispositivo ativo
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="statement">
@@ -618,10 +905,10 @@
   <script>
     /* SUBSTITUA OS # PELOS LINKS REAIS DOS PRODUTOS */
     const productLinks = {
-      playStore: "#",
-      appStore: "#",
-      website: "#",
-      management: "#"
+      playStore: "https://link-workspace.github.io/FitHouse-app/",
+      appStore: "https://link-workspace.github.io/FitHouse-app/",
+      website: "https://link-workspace.github.io/FitHouse-website/",
+      management: "https://link-workspace.github.io/FitHouse-management/"
     };
 
     document.getElementById("year").textContent = new Date().getFullYear();
