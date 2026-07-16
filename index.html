@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Hub digital da Fit House: aplicativo, website e sistema de gestão." />
+  <meta name="theme-color" content="#080808" />
+  <link rel="icon" type="image/png" href="./fit-house-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <title>Fit House | Hub Digital</title>
+
+  <style>
+    :root {
+      --black: #070707;
+      --surface: rgba(18, 18, 19, .82);
+      --line: rgba(255, 255, 255, .09);
+      --line-strong: rgba(255, 255, 255, .17);
+      --white: #f5f2ed;
+      --muted: #aaa6a0;
+      --red: #d5232f;
+      --red-light: #f03c47;
+      --bronze: #b68a52;
+      --bronze-light: #d8b47e;
+      --radius: 32px;
+      font-family: "DM Sans", sans-serif;
+      color: var(--white);
+      background: var(--black);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { min-width: 320px; margin: 0; background: var(--black); }
+    a { color: inherit; text-decoration: none; }
+    button { color: inherit; font: inherit; }
+    svg {
+      width: 100%; height: 100%; fill: none; stroke: currentColor;
+      stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    .page {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      isolation: isolate;
+      padding: 0 clamp(20px, 4vw, 72px);
+      background:
+        radial-gradient(circle at 50% -20%, rgba(213,35,47,.14), transparent 38%),
+        linear-gradient(180deg, #090909, #070707);
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      opacity: .16;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(to bottom, black, transparent 76%);
+    }
+
+    .glow {
+      position: absolute;
+      z-index: -2;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(115px);
+      opacity: .12;
+      pointer-events: none;
+    }
+
+    .glow.red { top: 200px; left: -280px; background: var(--red); }
+    .glow.bronze { top: 540px; right: -310px; background: var(--bronze); }
+
+    .nav, main, footer { width: min(1400px, 100%); margin: 0 auto; }
+
+    .nav {
+      height: 108px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand { display: inline-flex; align-items: center; gap: 13px; }
+
+    .brand-mark {
+      position: relative;
+      width: 45px;
+      height: 45px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid rgba(213,35,47,.56);
+      border-radius: 13px;
+      background: linear-gradient(145deg, rgba(213,35,47,.2), rgba(213,35,47,.03));
+    }
+
+    .brand-mark::before {
+      content: "";
+      position: absolute;
+      width: 23px;
+      height: 70px;
+      transform: rotate(34deg);
+      background: rgba(213,35,47,.22);
+    }
+
+    .brand-mark span {
+      position: relative;
+      font-family: "Manrope", sans-serif;
+      font-size: .73rem;
+      font-weight: 800;
+    }
+
+    .brand-mark img {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand-name {
+      font-family: "Manrope", sans-serif;
+      font-size: .98rem;
+      font-weight: 500;
+      letter-spacing: .18em;
+    }
+
+    .brand-name strong { color: var(--red-light); }
+
+    .nav-info {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .status, .location { display: inline-flex; align-items: center; gap: 9px; }
+    .location { transition: color .25s ease; }
+    .location:hover { color: var(--white); }
+    .location svg { width: 17px; height: 17px; }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #58bf7b;
+      box-shadow: 0 0 0 5px rgba(88,191,123,.09);
+    }
+
+    .hero {
+      min-height: 540px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 90px 0 78px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #cbc6bf;
+      background: rgba(255,255,255,.025);
+      font-size: .77rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      animation: reveal .7s ease both;
+    }
+
+    .badge svg { width: 16px; height: 16px; color: var(--bronze-light); }
+
+    h1 {
+      max-width: 920px;
+      margin: 28px 0 24px;
+      font-family: "Manrope", sans-serif;
+      font-size: clamp(3.4rem, 7.5vw, 7rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -.07em;
+      animation: reveal .8s .08s ease both;
+    }
+
+    h1 span {
+      display: block;
+      padding-bottom: .15em;
+      color: transparent;
+      background: linear-gradient(95deg, var(--red-light), var(--bronze-light));
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.5vw, 1.18rem);
+      line-height: 1.75;
+      animation: reveal .8s .16s ease both;
+    }
+
+    .scroll-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 57px;
+      color: #77736f;
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      animation: reveal .8s .24s ease both;
+    }
+
+    .scroll-label::before { content: ""; width: 28px; height: 1px; background: #77736f; }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      position: relative;
+      min-height: 530px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(165deg, rgba(255,255,255,.045), transparent 42%),
+        var(--surface);
+      box-shadow: 0 30px 80px rgba(0,0,0,.42);
+      backdrop-filter: blur(24px);
+      transition: transform .4s cubic-bezier(.2,.8,.2,1), border-color .4s ease;
+      animation: cards .8s ease both;
+    }
+
+    .card:nth-child(2) { animation-delay: .08s; }
+    .card:nth-child(3) { animation-delay: .16s; }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: linear-gradient(145deg, rgba(255,255,255,.07), transparent 45%);
+      transition: opacity .4s ease;
+    }
+
+    .card:hover { transform: translateY(-10px); border-color: var(--line-strong); }
+    .card:hover::before { opacity: 1; }
+
+    .card-top, .card-footer {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .number { color: #696662; font-family: "Manrope", sans-serif; font-size: .75rem; letter-spacing: .14em; }
+
+    .eyebrow {
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #b7b2ac;
+      background: rgba(255,255,255,.025);
+      font-size: .69rem;
+      font-weight: 600;
+    }
+
+    .card-icon {
+      position: relative;
+      z-index: 2;
+      width: 76px;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      margin-top: 66px;
+      border: 1px solid var(--line);
+      border-radius: 23px;
+      background: rgba(255,255,255,.035);
+    }
+
+    .card-icon svg { width: 34px; height: 34px; }
+    .card.red .card-icon { color: var(--red-light); border-color: rgba(240,60,71,.22); background: rgba(213,35,47,.1); }
+    .card.bronze .card-icon { color: var(--bronze-light); border-color: rgba(216,180,126,.22); background: rgba(182,138,82,.1); }
+
+    .card-content { position: relative; z-index: 2; margin-top: 31px; }
+
+    .card h2 {
+      margin: 0;
+      font-family: "Manrope", sans-serif;
+      font-size: clamp(1.65rem, 2.4vw, 2.25rem);
+      line-height: 1.08;
+      letter-spacing: -.045em;
+    }
+
+    .card-content p { margin: 17px 0 0; color: var(--muted); line-height: 1.65; font-size: .91rem; }
+
+    .card-footer { align-items: flex-end; gap: 14px; margin-top: auto; padding-top: 30px; }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; }
+
+    .arrow {
+      flex: 0 0 auto;
+      width: 47px;
+      height: 47px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: rgba(255,255,255,.035);
+      transition: transform .35s ease, color .35s ease, background .35s ease;
+    }
+
+    .arrow svg { width: 20px; height: 20px; }
+    .card:hover .arrow { transform: rotate(45deg); color: #0a0a0a; background: var(--white); }
+
+    .card-glow {
+      position: absolute;
+      right: -130px;
+      bottom: -140px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .11;
+      transition: opacity .4s ease, transform .4s ease;
+    }
+
+    .card:hover .card-glow { opacity: .22; transform: scale(1.15); }
+    .red .card-glow { background: var(--red); }
+    .bronze .card-glow { background: var(--bronze); }
+    .dark .card-glow { background: #8b8986; opacity: .06; }
+
+    .store-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px 8px 9px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      cursor: pointer;
+      text-align: left;
+      background: rgba(255,255,255,.035);
+      transition: border-color .25s ease, background .25s ease;
+    }
+
+    .store-button:hover { border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.07); }
+    .store-icon { width: 23px; height: 23px; display: grid; place-items: center; }
+    .store-icon svg { width: 20px; height: 20px; }
+    .store-button small, .store-button strong { display: block; white-space: nowrap; }
+    .store-button small { color: #96918b; font-size: .52rem; line-height: 1.1; }
+    .store-button strong { font-family: "Manrope", sans-serif; font-size: .68rem; }
+
+    .text-action { color: #e6e1da; font-size: .82rem; font-weight: 600; }
+
+    .restricted {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #aaa59e;
+      font-size: .68rem;
+    }
+
+    .restricted::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--bronze-light); }
+
+    .statement {
+      min-height: 310px;
+      display: grid;
+      grid-template-columns: 1fr minmax(280px, 680px) 1fr;
+      align-items: center;
+      gap: 38px;
+      text-align: center;
+    }
+
+    .statement::before, .statement::after { content: ""; height: 1px; background: var(--line); }
+
+    .statement p {
+      margin: 0;
+      color: #8d8983;
+      font-family: "Manrope", sans-serif;
+      font-size: clamp(1.15rem, 2vw, 1.55rem);
+      line-height: 1.5;
+      letter-spacing: -.025em;
+    }
+
+    .statement strong { color: var(--white); }
+
+    footer {
+      min-height: 145px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      border-top: 1px solid var(--line);
+      color: #77736e;
+      font-size: .78rem;
+    }
+
+    footer p { margin: 0; }
+
+    .footer-label {
+      display: block;
+      margin-bottom: 9px;
+      color: #d5d0c9;
+      font-family: "Manrope", sans-serif;
+      font-size: .74rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .footer-right { display: flex; align-items: center; gap: 13px; }
+    .footer-right a:hover { color: var(--white); }
+    .dot { width: 3px; height: 3px; border-radius: 50%; background: #4f4c48; }
+
+    .warning {
+      position: fixed;
+      z-index: 30;
+      right: 22px;
+      bottom: 22px;
+      max-width: min(390px, calc(100vw - 44px));
+      padding: 15px 17px;
+      border: 1px solid rgba(216,180,126,.25);
+      border-radius: 14px;
+      color: #ddd7ce;
+      background: rgba(16,16,17,.96);
+      box-shadow: 0 20px 70px rgba(0,0,0,.45);
+      font-size: .8rem;
+      line-height: 1.5;
+      opacity: 0;
+      transform: translateY(15px);
+      pointer-events: none;
+      transition: .25s ease;
+    }
+
+    .warning.show { opacity: 1; transform: translateY(0); }
+
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes cards {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1100px) {
+      .products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .card:last-child { grid-column: 1 / -1; min-height: 430px; }
+      .card:last-child .card-icon { margin-top: 45px; }
+    }
+
+    @media (max-width: 760px) {
+      .page { padding: 0 18px; }
+      .nav { height: 86px; }
+      .status { display: none; }
+      .location { font-size: 0; }
+      .location svg { width: 20px; height: 20px; }
+      .brand-name { font-size: .86rem; }
+      .hero { min-height: 520px; padding: 72px 0 55px; }
+      h1 { font-size: clamp(3rem, 15vw, 4.6rem); }
+      .hero p { font-size: .97rem; }
+      .products { grid-template-columns: 1fr; }
+      .card, .card:last-child { grid-column: auto; min-height: 500px; padding: 24px; }
+      .statement { min-height: 270px; grid-template-columns: 1fr; gap: 25px; }
+      .statement::before, .statement::after { width: 180px; margin: 0 auto; }
+      footer { min-height: 180px; align-items: flex-start; flex-direction: column; justify-content: center; }
+    }
+
+    @media (max-width: 430px) {
+      .badge { font-size: .69rem; }
+      .card { min-height: 525px; border-radius: 25px; }
+      .card-icon { margin-top: 52px; }
+      .store-button { width: 100%; }
+      .card.red .actions { flex: 1; }
+      .footer-right { flex-wrap: wrap; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="glow red"></div>
+    <div class="glow bronze"></div>
+
+    <header class="nav">
+      <a class="brand" href="#inicio">
+        <span class="brand-mark"><img src="./fit-house-logo.png" alt="Fit House Logo" /></span>
+        <span class="brand-name"><strong>FIT</strong> HOUSE</span>
+      </a>
+
+      <div class="nav-info">
+        <span class="status"><span class="status-dot"></span>Ecossistema digital</span>
+        <a class="location" href="#localizacao">
+          <svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          Anita Garibaldi
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="inicio">
+        <div class="badge">
+          <svg viewBox="0 0 24 24"><path d="m12 2 1.5 5.1L18 9l-4.5 1.9L12 16l-1.5-5.1L6 9l4.5-1.9L12 2ZM19 14l.8 2.7L22 18l-2.2 1.3L19 22l-.8-2.7L16 18l2.2-1.3L19 14Z"/></svg>
+          Um projeto pensado para automatizar a gestão da Fit House
+        </div>
+        <h1>Toda a experiência Fit House conectada <span>em um só lugar.</span></h1>
+        <p>Acesse o aplicativo, conheça a academia pelo nosso website ou entre no ambiente exclusivo de gestão.</p>
+        <div class="scroll-label">Explore os produtos</div>
+      </section>
+
+      <section class="products">
+        <a class="card bronze" href="#" data-link="website">
+          <div class="card-top"><span class="number">01</span><span class="eyebrow">Conheça nosso espaço</span></div>
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 2.5 4.2 5.5 4.2 9S14.8 18.5 12 21c-2.8-2.5-4.2-5.5-4.2-9S9.2 5.5 12 3Z"/></svg>
+          </div>
+          <div class="card-content">
+            <h2>Website oficial</h2>
+            <p>Descubra a estrutura, os profissionais e tudo o que torna a Fit House um ambiente feito para saúde e qualidade de vida.</p>
+          </div>
+          <div class="card-footer">
+            <span class="text-action">Visitar website</span>
+            <span class="arrow"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+          </div>
+          <div class="card-glow"></div>
+        </a>
+
+        <article class="card red">
+          <div class="card-top"><span class="number">02</span><span class="eyebrow">Para alunos</span></div>
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10 5h4M11 18.5h2"/></svg>
+          </div>
+          <div class="card-content">
+            <h2>App Fit House</h2>
+            <p>Sua rotina de treinos, informações da academia e uma experiência Fit House que acompanha você todos os dias.</p>
+          </div>
+          <div class="card-footer">
+            <div class="actions">
+              <button class="store-button" data-link="playStore">
+                <span class="store-icon"><svg viewBox="0 0 24 24"><path d="m4.2 3.5 10.3 8.1c.3.2.3.6 0 .8L4.2 20.5c-.5.4-1.2 0-1.2-.6V4.1c0-.6.7-1 1.2-.6Z"/><path d="m14.3 11.5 3.4-2.1M14.3 12.5l3.4 2.1"/></svg></span>
+                <span><small>Disponível no</small><strong>Google Play</strong></span>
+              </button>
+              <button class="store-button" data-link="appStore">
+                <span class="store-icon"><svg viewBox="0 0 24 24"><path d="M16.8 12.7c0-2 1.6-3 1.7-3.1a4.2 4.2 0 0 0-3.3-1.8c-1.4-.1-2.7.8-3.4.8-.7 0-1.8-.8-3-.8-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 6.9 1.1 9.2.8 1.1 1.7 2.3 2.9 2.2 1.2 0 1.6-.7 3.1-.7 1.4 0 1.9.7 3.1.7 1.3 0 2.1-1.1 2.8-2.2.9-1.3 1.2-2.5 1.2-2.6-.1 0-2.4-.9-2.4-4Z"/><path d="M14.3 6.3c.6-.8 1.1-1.9 1-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2-.5 2.7-1.3Z"/></svg></span>
+                <span><small>Baixar na</small><strong>App Store</strong></span>
+              </button>
+            </div>
+            <button class="arrow" data-link="playStore" aria-label="Abrir aplicativo">
+              <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            </button>
+          </div>
+          <div class="card-glow"></div>
+        </article>
+
+        <a class="card dark" href="#" data-link="management">
+          <div class="card-top"><span class="number">03</span><span class="eyebrow">Acesso exclusivo</span></div>
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 9v12M12.5 13h5M12.5 17h3"/></svg>
+          </div>
+          <div class="card-content">
+            <h2>Sistema de gestão</h2>
+            <p>O centro de operação da Fit House, criado para organizar processos, acompanhar resultados e simplificar a rotina da academia.</p>
+          </div>
+          <div class="card-footer">
+            <div class="actions"><span class="restricted">Área restrita</span><span class="text-action">Entrar no sistema</span></div>
+            <span class="arrow"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+          </div>
+          <div class="card-glow"></div>
+        </a>
+      </section>
+
+      <section class="statement">
+        <p>Tecnologia que automatiza, organiza e torna a experiência <strong>Fit House</strong> ainda melhor.</p>
+      </section>
+    </main>
+
+    <footer id="localizacao">
+      <div>
+        <span class="footer-label">Fit House Academia</span>
+        <p>Rua José Pagno, nº 84 — Anita Garibaldi, Santa Catarina</p>
+      </div>
+      <div class="footer-right">
+        <span>© <span id="year"></span> Fit House</span>
+        <span class="dot"></span>
+        <a href="https://instagram.com/acadfithouse" target="_blank" rel="noreferrer">@acadfithouse</a>
+      </div>
+    </footer>
+  </div>
+
+  <div class="warning" id="warning">Este produto ainda está sem link. Edite a seção productLinks no final do arquivo index.html.</div>
+
+  <script>
+    /* SUBSTITUA OS # PELOS LINKS REAIS DOS PRODUTOS */
+    const productLinks = {
+      playStore: "#",
+      appStore: "#",
+      website: "#",
+      management: "#"
+    };
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    let warningTimer;
+    const warning = document.getElementById("warning");
+
+    document.querySelectorAll("[data-link]").forEach(element => {
+      element.addEventListener("click", event => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const url = productLinks[element.dataset.link];
+
+        if (!url || url === "#") {
+          clearTimeout(warningTimer);
+          warning.classList.add("show");
+          warningTimer = setTimeout(() => warning.classList.remove("show"), 4000);
+          return;
+        }
+
+        window.open(url, "_blank", "noopener,noreferrer");
+      });
+    });
+  </script>
+</body>
+</html>
